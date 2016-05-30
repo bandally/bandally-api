@@ -1,7 +1,10 @@
 (function () {
   'use strict';
 
-  require('cloud/like.js');
+  var Like = require('cloud/like.js');
+
+  Parse.Cloud.afterSave('Like', Like.updateLikesCount);
+  Parse.Cloud.afterDelete('Like', Like.updateLikesCount);
 
   Parse.Cloud.define('getBase64StringFromUrl', function (request, response) {
     Parse.Cloud.useMasterKey();
