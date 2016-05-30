@@ -1,7 +1,10 @@
 var Like = require('./like');
+var Comment = require('./comment');
 
 Parse.Cloud.afterSave('Like', Like.updateLikesCount);
+Parse.Cloud.afterSave('Comment', Comment.updateCommentsCount);
 Parse.Cloud.afterDelete('Like', Like.updateLikesCount);
+Parse.Cloud.afterDelete('Comment', Comment.updateCommentsCount);
 
 Parse.Cloud.define('getBase64StringFromUrl', function (request, response) {
   Parse.Cloud.useMasterKey();
