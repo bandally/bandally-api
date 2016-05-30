@@ -1,4 +1,4 @@
-var Like = require('cloud/like.js');
+var Like = require('./like');
 
 Parse.Cloud.afterSave('Like', Like.updateLikesCount);
 Parse.Cloud.afterDelete('Like', Like.updateLikesCount);
