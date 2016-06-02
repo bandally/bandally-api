@@ -24,13 +24,15 @@ function updateLikesCount(request) {
 
 function addNotification(request) {
   var like = request.object;
-  var user = like.get('spot').get('user');
-  var Notification = Parse.Object.extend('Notification');
-  var notification = new Notification();
-  notification.set('like', like);
-  notification.set('user', user);
-  notification.setACL(new Parse.ACL(user));
-  return notification.save();
+  return like.get('spot').fetch().then(function (spot) {
+    var user = spot.get('user');
+    var Notification = Parse.Object.extend('Notification');
+    var notification = new Notification();
+    notification.set('like', like);
+    notification.set('user', user);
+    notification.setACL(new Parse.ACL(user));
+    return notification.save();
+  });
 }
 
 function removeNotification(request) {
