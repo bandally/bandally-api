@@ -1,9 +1,9 @@
 var Like = require('./like');
 var Comment = require('./comment');
 
-Parse.Cloud.afterSave('Like', Like.updateLikesCount);
+Parse.Cloud.afterSave('Like', Like.afterSave);
 Parse.Cloud.afterSave('Comment', Comment.updateCommentsCount);
-Parse.Cloud.afterDelete('Like', Like.updateLikesCount);
+Parse.Cloud.afterDelete('Like', Like.afterDelete);
 Parse.Cloud.afterDelete('Comment', Comment.updateCommentsCount);
 
 Parse.Cloud.define('getBase64StringFromUrl', function (request, response) {
