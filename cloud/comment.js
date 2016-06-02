@@ -24,13 +24,15 @@ function updateCommentsCount(request) {
 
 function addNotification(request) {
   var comment = request.object;
-  var user = comment.get('spot').get('user');
-  var Notification = Parse.Object.extend('Notification');
-  var notification = new Notification();
-  notification.set('comment', comment);
-  notification.set('user', user);
-  notification.setACL(new Parse.ACL(user));
-  return notification.save();
+  return comment.get('spot').fetch().then(function (spot) {
+    var user = spot.get('user');
+    var Notification = Parse.Object.extend('Notification');
+    var notification = new Notification();
+    notification.set('comment', comment);
+    notification.set('user', user);
+    notification.setACL(new Parse.ACL(user));
+    return notification.save();
+  });
 }
 
 function removeNotification(request) {
