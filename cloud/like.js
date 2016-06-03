@@ -38,7 +38,6 @@ function addNotification(request) {
 function removeNotification(request) {
   Parse.Cloud.useMasterKey();
   var like = request.object;
-  var user = like.get('spot').get('user');
   var Notification = Parse.Object.extend('Notification');
   var query = new Parse.Query(Notification);
   query.equalTo('like', like);
