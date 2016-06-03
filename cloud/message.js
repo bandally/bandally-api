@@ -12,6 +12,7 @@ function afterDelete(request) {
 function addNotifications(request) {
   Parse.Cloud.useMasterKey();
   var message = request.object;
+  console.log(JSON.stringify(message));
   return message.get('messageRoom').fetch().then(function (messageRoom) {
     return messageRoom.get('users').fetch().then(function (users) {
       console.log(JSON.stringify(users));
