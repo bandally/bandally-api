@@ -13,9 +13,11 @@ function addNotifications(request) {
   var message = request.object;
   return message.get('messageRoom').fetch().then(function (messageRoom) {
     return messageRoom.get('users').fetch().then(function (users) {
+      console.log(JSON.stringify(users));
       users = users.filter(function (user) {
         return user.id !== message.get('from').id;
       });
+      console.log(JSON.stringify(users));
       var Notification = Parse.Object.extend('Notification');
       var saveData = [];
       users.forEach((user) => {
