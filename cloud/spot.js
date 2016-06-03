@@ -1,4 +1,4 @@
-exports.afterSave = afterSave;
+exports.afterDelete = afterDelete;
 
 function afterDelete(request) {
   removeContents(request);
