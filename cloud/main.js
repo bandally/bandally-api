@@ -1,5 +1,6 @@
 var Like = require('./like');
 var Comment = require('./comment');
+var Follow = require('./follow');
 
 Parse.Cloud.afterSave('Like', Like.afterSave);
 Parse.Cloud.afterSave('Comment', Comment.afterSave);
