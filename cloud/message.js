@@ -12,9 +12,15 @@ function afterDelete(request) {
 function addNotifications(request) {
   Parse.Cloud.useMasterKey();
   var message = request.object;
-  console.log(JSON.stringify(message));
-  return message.get('messageRoom').fetch().then(function (messageRoom) {
-    return messageRoom.get('users').fetch().then(function (users) {
+  return message.get('messageRoom').fetch()
+    .then(function (messageRoom) {
+      var promises = [];
+      messageRoom.get('users').forEach(function (user) {
+        promises.push(user.fetch());
+      });
+      return Parse.Promise.when(promises);
+    })
+    .then(function (users) {
       console.log(JSON.stringify(users));
       users = users.filter(function (user) {
         return user.id !== message.get('from').id;
