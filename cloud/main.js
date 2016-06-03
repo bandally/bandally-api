@@ -2,10 +2,12 @@ var Spot = require('./spot');
 var Like = require('./like');
 var Comment = require('./comment');
 var Follow = require('./follow');
+var Message = require('./message');
 
 Parse.Cloud.afterSave('Like', Like.afterSave);
 Parse.Cloud.afterSave('Comment', Comment.afterSave);
 Parse.Cloud.afterSave('Follow', Follow.afterSave);
+Parse.Cloud.afterSave('Message', Message.afterSave);
 Parse.Cloud.afterDelete('Spot', Spot.afterDelete);
 Parse.Cloud.afterDelete('Like', Like.afterDelete);
 Parse.Cloud.afterDelete('Comment', Comment.afterDelete);
