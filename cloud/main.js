@@ -12,6 +12,7 @@ Parse.Cloud.afterDelete('Spot', Spot.afterDelete);
 Parse.Cloud.afterDelete('Like', Like.afterDelete);
 Parse.Cloud.afterDelete('Comment', Comment.afterDelete);
 Parse.Cloud.afterDelete('Follow', Follow.afterDelete);
+Parse.Cloud.afterDelete('Message', Message.afterDelete);
 
 Parse.Cloud.define('getBase64StringFromUrl', function (request, response) {
   Parse.Cloud.useMasterKey();

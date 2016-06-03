@@ -1,7 +1,12 @@
 exports.afterSave = afterSave;
+exports.afterDelete = afterDelete;
 
 function afterSave(request) {
   addNotifications(request);
+}
+
+function afterDelete(request) {
+  removeNotifications(request);
 }
 
 function addNotifications(request) {
