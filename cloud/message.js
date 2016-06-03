@@ -21,11 +21,9 @@ function addNotifications(request) {
       return Parse.Promise.when(promises);
     })
     .then(function (users) {
-      console.log(JSON.stringify(users));
       users = users.filter(function (user) {
         return user.id !== message.get('from').id;
       });
-      console.log(JSON.stringify(users));
       var Notification = Parse.Object.extend('Notification');
       var saveData = [];
       users.forEach((user) => {
