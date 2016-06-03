@@ -37,7 +37,6 @@ function addNotifications(request) {
       });
       return Parse.Object.saveAll(saveData);
     });
-  });
 }
 
 function removeNotifications(request) {
