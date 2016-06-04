@@ -4,6 +4,7 @@ var Comment = require('./comment');
 var Follow = require('./follow');
 var Message = require('./message');
 
+Parse.Cloud.beforeSave('Spot', Spot.beforeSave);
 Parse.Cloud.afterSave('Like', Like.afterSave);
 Parse.Cloud.afterSave('Comment', Comment.afterSave);
 Parse.Cloud.afterSave('Follow', Follow.afterSave);
