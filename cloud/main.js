@@ -1,9 +1,11 @@
+var User = require('./user');
 var Spot = require('./spot');
 var Like = require('./like');
 var Comment = require('./comment');
 var Follow = require('./follow');
 var Message = require('./message');
 
+Parse.Cloud.beforeSave(Parse.User, User.beforeSave);
 Parse.Cloud.beforeSave('Spot', Spot.beforeSave);
 Parse.Cloud.afterSave('Like', Like.afterSave);
 Parse.Cloud.afterSave('Comment', Comment.afterSave);
