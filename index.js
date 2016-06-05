@@ -3,12 +3,26 @@
 
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
+var S3Adapter = require('parse-server').S3Adapter;
 var path = require('path');
 
 var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
 if (!databaseUri) {
   console.log('DATABASE_URI not specified, falling back to localhost.');
+}
+
+var filesAdapter;
+if (process.env.NODE_ENV === 'production') {
+  filesAdapter = new S3Adapter(
+    process.env.S3_ACCESS_KEY || "S3_ACCESS_KEY",
+    process.env.S3_SECRET_KEY || "S3_SECRET_KEY",
+    process.env.S3_BUCKET || "S3_BUCKET",
+    {
+      region: 'ap-northeast-1',
+      directAccess: true
+    }
+  );
 }
 
 var api = new ParseServer({
@@ -19,7 +33,8 @@ var api = new ParseServer({
   serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse',  // Don't forget to change to https if needed
   liveQuery: {
     classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
-  }
+  },
+  filesAdapter: filesAdapter
 });
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
 // If you wish you require them, you can set them as options in the initialization above:
