@@ -4,10 +4,10 @@ function beforeSave(request, response) {
   if (request.object.isNew()) {
     return response.success();
   }
-  var validation = validate(request.object);
-  if (!validation.result) {
-    return response.error(validation.message);
-  }
+  // var validation = validate(request.object);
+  // if (!validation.result) {
+  //   return response.error(validation.message);
+  // }
   return response.success();
 }
 
