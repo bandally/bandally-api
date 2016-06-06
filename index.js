@@ -23,7 +23,6 @@ if (process.env.NODE_ENV === 'production') {
       directAccess: true
     }
   );
-  console.log(filesAdapter);
 }
 
 var api = new ParseServer({
@@ -37,6 +36,7 @@ var api = new ParseServer({
   },
   filesAdapter: filesAdapter
 });
+console.log(api);
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
 // If you wish you require them, you can set them as options in the initialization above:
 // javascriptKey, restAPIKey, dotNetKey, clientKey
