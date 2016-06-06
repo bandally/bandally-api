@@ -23,6 +23,7 @@ if (process.env.NODE_ENV === 'production') {
       directAccess: true
     }
   );
+  console.log(filesAdapter);
 }
 
 var api = new ParseServer({
