@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'production') {
     process.env.S3_SECRET_KEY || "S3_SECRET_KEY",
     process.env.S3_BUCKET || "S3_BUCKET",
     {
-      region: 'ap-northeast-1',
+      region: process.env.S3_REGION || 'ap-northeast-1',
       directAccess: true
     }
   );
