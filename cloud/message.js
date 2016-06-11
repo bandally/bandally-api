@@ -42,7 +42,7 @@ function addNotifications(request) {
       receiveUsers.forEach(function (user) {
         var to = user.get('email');
         var subject = 'Received message | bandally';
-        var body = '<p>You received a message.</p><p>Check your <a href="https:' + process.env.DOCUMENT_ROOT + '">message box</a></p>';
+        var body = '<p>You received a message.</p><p>Check your <a href="https:' + process.env.DOCUMENT_ROOT + '#/account/messages">message box</a>.</p>';
         Mail.send(to, subject, body);
       });
     }, function (error) {
