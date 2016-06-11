@@ -1,8 +1,4 @@
-var Mailgun = require('mailgun-js');
-
-var api_key = process.env.MAILGUN_API_KEY || 'MAILGUN-API-KEY';
-var domain = process.env.MAILGUN_DOMAIN || 'YOUR-DOMAIN.com';
-var from_who = process.env.FROM_ADDRESS || 'your@email.com';
+var Mail = require('./mail');
 
 exports.afterSave = afterSave;
 exports.afterDelete = afterDelete;
@@ -43,25 +39,11 @@ function addNotifications(request) {
       return Parse.Object.saveAll(saveData);
     })
     .then(function (saveData) {
-      var mailgun = new Mailgun({
-        apiKey: api_key,
-        domain: domain
-      });
       receiveUsers.forEach(function (user) {
-        var data = {
-          from: from_who,
-          to: user.get('email'),
-          subject: 'Received message | bandally',
-          html: 'You received message.'
-        };
-        mailgun.messages().send(data, function (err, body) {
-          if (err) {
-            console.log("got an error: ", err);
-          }
-          else {
-            console.log(body);
-          }
-        });
+        var to = user.get('email');
+        var subject = 'Received message | bandally';
+        var body = '<p>You received a message.</p><p>Check your <a href="https:' + process.env.DOCUMENT_ROOT + '">message box</a></p>';
+        Mail.send(to, subject, body);
       });
     }, function (error) {
       console.log(error);
