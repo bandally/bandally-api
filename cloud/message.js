@@ -1,3 +1,6 @@
+var Mailgun = require('mailgun-js');
+console.log(Mailgun);
+
 exports.afterSave = afterSave;
 exports.afterDelete = afterDelete;
 
