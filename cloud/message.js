@@ -18,7 +18,7 @@ function afterDelete(request) {
 function addNotifications(request) {
   Parse.Cloud.useMasterKey();
   var message = request.object;
-  var users;
+  var receiveUsers;
   return message.get('messageRoom').fetch()
     .then(function (messageRoom) {
       var promises = [];
@@ -28,12 +28,12 @@ function addNotifications(request) {
       return Parse.Promise.when(promises);
     })
     .then(function (users) {
-      users = users.filter(function (user) {
+      receiveUsers = users.filter(function (user) {
         return user.id !== message.get('from').id;
       });
       var Notification = Parse.Object.extend('Notification');
       var saveData = [];
-      users.forEach((user) => {
+      receiveUsers.forEach((user) => {
         var notification = new Notification();
         notification.set('message', message);
         notification.set('user', user);
@@ -47,10 +47,7 @@ function addNotifications(request) {
         apiKey: api_key,
         domain: domain
       });
-      console.log(mailgun);
-      console.log(users);
-      users.forEach(function (user) {
-        console.log(user.get('email'));
+      receiveUsers.forEach(function (user) {
         var data = {
           from: from_who,
           to: user.get('email'),
