@@ -43,11 +43,12 @@ function addNotifications(request) {
       return Parse.Object.saveAll(saveData);
     })
     .then(function (saveData) {
-      console.log('ok');
       var mailgun = new Mailgun({
         apiKey: api_key,
         domain: domain
       });
+      console.log(mailgun);
+      console.log(users);
       users.forEach(function (user) {
         console.log(user.get('email'));
         var data = {
