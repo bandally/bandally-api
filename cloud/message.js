@@ -1,3 +1,5 @@
+var Mail = require('./mail');
+
 exports.afterSave = afterSave;
 exports.afterDelete = afterDelete;
 
@@ -12,6 +14,7 @@ function afterDelete(request) {
 function addNotifications(request) {
   Parse.Cloud.useMasterKey();
   var message = request.object;
+  var receiveUsers;
   return message.get('messageRoom').fetch()
     .then(function (messageRoom) {
       var promises = [];
@@ -21,12 +24,12 @@ function addNotifications(request) {
       return Parse.Promise.when(promises);
     })
     .then(function (users) {
-      users = users.filter(function (user) {
+      receiveUsers = users.filter(function (user) {
         return user.id !== message.get('from').id;
       });
       var Notification = Parse.Object.extend('Notification');
       var saveData = [];
-      users.forEach((user) => {
+      receiveUsers.forEach((user) => {
         var notification = new Notification();
         notification.set('message', message);
         notification.set('user', user);
@@ -34,6 +37,16 @@ function addNotifications(request) {
         saveData.push(notification);
       });
       return Parse.Object.saveAll(saveData);
+    })
+    .then(function (saveData) {
+      receiveUsers.forEach(function (user) {
+        var to = user.get('email');
+        var subject = 'Received message | bandally';
+        var body = '<p>You received a message.</p><p>Check your <a href="https:' + process.env.DOCUMENT_ROOT + '#/account/messages">message box</a>.</p>';
+        Mail.send(to, subject, body);
+      });
+    }, function (error) {
+      console.log(error);
     });
 }
 
