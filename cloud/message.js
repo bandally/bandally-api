@@ -43,6 +43,7 @@ function addNotifications(request) {
       return Parse.Object.saveAll(saveData);
     })
     .then(function (saveData) {
+      console.log('ok');
       var mailgun = new Mailgun({
         apiKey: api_key,
         domain: domain
@@ -64,6 +65,8 @@ function addNotifications(request) {
           }
         });
       });
+    }, function (error) {
+      console.log(error);
     });
 }
 
