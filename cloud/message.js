@@ -48,12 +48,13 @@ function addNotifications(request) {
         domain: domain
       });
       users.forEach(function (user) {
+        console.log(user.get('email'));
         var data = {
           from: from_who,
           to: user.get('email'),
           subject: 'Received message | bandally',
           html: 'You received message.'
-        }
+        };
         mailgun.messages().send(data, function (err, body) {
           if (err) {
             console.log("got an error: ", err);
