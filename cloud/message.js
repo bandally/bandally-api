@@ -1,8 +1,8 @@
 var Mailgun = require('mailgun-js');
-console.log(process.env);
-var api_key = 'MAILGUN-API-KEY';
-var domain = 'YOUR-DOMAIN.com';
-var from_who = 'your@email.com';
+
+var api_key = process.env.MAILGUN_API_KEY || 'MAILGUN-API-KEY';
+var domain = process.env.MAILGUN_DOMAIN || 'YOUR-DOMAIN.com';
+var from_who = process.env.FROM_ADDRESS || 'your@email.com';
 
 exports.afterSave = afterSave;
 exports.afterDelete = afterDelete;
@@ -18,6 +18,7 @@ function afterDelete(request) {
 function addNotifications(request) {
   Parse.Cloud.useMasterKey();
   var message = request.object;
+  var users;
   return message.get('messageRoom').fetch()
     .then(function (messageRoom) {
       var promises = [];
@@ -42,7 +43,26 @@ function addNotifications(request) {
       return Parse.Object.saveAll(saveData);
     })
     .then(function (saveData) {
-
+      var mailgun = new Mailgun({
+        apiKey: api_key,
+        domain: domain
+      });
+      users.forEach(function (user) {
+        var data = {
+          from: from_who,
+          to: user.get('email'),
+          subject: 'Received message | bandally',
+          html: 'You received message.'
+        }
+        mailgun.messages().send(data, function (err, body) {
+          if (err) {
+            console.log("got an error: ", err);
+          }
+          else {
+            console.log(body);
+          }
+        });
+      });
     });
 }
 
