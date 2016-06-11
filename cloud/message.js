@@ -1,5 +1,8 @@
 var Mailgun = require('mailgun-js');
-console.log(Mailgun);
+console.log(process.env);
+var api_key = 'MAILGUN-API-KEY';
+var domain = 'YOUR-DOMAIN.com';
+var from_who = 'your@email.com';
 
 exports.afterSave = afterSave;
 exports.afterDelete = afterDelete;
@@ -37,6 +40,9 @@ function addNotifications(request) {
         saveData.push(notification);
       });
       return Parse.Object.saveAll(saveData);
+    })
+    .then(function (saveData) {
+
     });
 }
 
