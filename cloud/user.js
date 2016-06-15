@@ -1,4 +1,5 @@
 exports.beforeSave = beforeSave;
+exports.afterSave = afterSave;
 
 function beforeSave(request, response) {
   if (request.object.isNew()) {
@@ -9,6 +10,10 @@ function beforeSave(request, response) {
   //   return response.error(validation.message);
   // }
   return response.success();
+}
+
+function afterSave(request) {
+  checkStatus(request);
 }
 
 function validate(user) {
@@ -34,4 +39,17 @@ function validate(user) {
     return { result: false, message: 'describes is not defined.' };
   }
   return { result: true };
+}
+
+function checkStatus(request) {
+  Parse.Cloud.useMasterKey();
+  var user = request.object;
+  var status = true;
+  if (!user.get('photo')) { status = false; }
+  if (!user.get('name')) { status = false; }
+  if (!user.get('gender')) { status = false; }
+  if (!user.get('birthDate')) { status = false; }
+  if (!user.get('describes') || !user.get('describes').length) { status = false; }
+  user.set('profileCompleted', status);
+  return user.save();
 }
