@@ -42,6 +42,7 @@ function validate(user) {
 }
 
 function checkStatus(request) {
+  Parse.Cloud.useMasterKey();
   var user = request.object;
   var status = true;
   if (!user.get('photo')) { status = false; }
