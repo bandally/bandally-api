@@ -2,8 +2,8 @@ exports.afterSave = afterSave;
 exports.afterDelete = afterDelete;
 
 function afterSave(request) {
-  updateLikesCount(request);
-  addNotification(request);
+  // updateLikesCount(request);
+  // addNotification(request);
 }
 
 function afterDelete(request) {
