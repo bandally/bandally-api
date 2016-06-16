@@ -23,7 +23,6 @@ function updateLikesCount(request) {
 }
 
 function addNotification(request) {
-  Parse.Cloud.useMasterKey();
   var like = request.object;
   return like.get('spot').fetch().then(function (spot) {
     var user = spot.get('user');
