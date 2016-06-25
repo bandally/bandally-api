@@ -20,6 +20,7 @@ if (process.env.NODE_ENV === 'production') {
     process.env.S3_BUCKET || "S3_BUCKET",
     {
       region: process.env.S3_REGION || 'ap-northeast-1',
+      bucketPrefix: process.env.S3_BUCKET_PREFIX || '',
       directAccess: true
     }
   );
