@@ -26,7 +26,6 @@ if (process.env.NODE_ENV === 'production') {
   );
 }
 
-console.log(process.env.APP_ID);
 var api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
