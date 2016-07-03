@@ -5,6 +5,7 @@ var Comment = require('./comment');
 var Follow = require('./follow');
 var Message = require('./message');
 
+Parse.Cloud.define('getSpotsByIds', Spot.get);
 Parse.Cloud.beforeSave(Parse.User, User.beforeSave);
 Parse.Cloud.beforeSave('Spot', Spot.beforeSave);
 Parse.Cloud.afterSave(Parse.User, User.afterSave);

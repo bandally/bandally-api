@@ -1,5 +1,21 @@
+exports.get = get;
 exports.beforeSave = beforeSave;
 exports.afterDelete = afterDelete;
+
+function get(request, response) {
+  var spotIds = request.params.spotIds;
+  var Spot = Parse.Object.extend('Spot');
+  var promises = spotIds.map(function (spotId) {
+    var query = new Parse.Query(Spot);
+    query.include(['user', 'contents.language', 'category']);
+    return query.get(spotId);
+  });
+  Parse.Promise.when(promises).then(function (results) {
+    response.success(results);
+  }, function (error) {
+    response.error(error);
+  });
+}
 
 function beforeSave(request, response) {
   if (!request.object.isNew()) {
