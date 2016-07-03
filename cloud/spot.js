@@ -3,6 +3,7 @@ exports.beforeSave = beforeSave;
 exports.afterDelete = afterDelete;
 
 function get(request, response) {
+  Parse.Cloud.useMasterKey();
   var spotIds = request.params.spotIds;
   var Spot = Parse.Object.extend('Spot');
   var promises = spotIds.map(function (spotId) {
