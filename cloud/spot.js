@@ -9,6 +9,7 @@ function get(request, response) {
   var promises = spotIds.map(function (spotId) {
     var query = new Parse.Query(Spot);
     query.include(['user', 'contents.language', 'category']);
+    console.log(query);
     return query.get(spotId);
   });
   Parse.Promise.when(promises).then(function (results) {
