@@ -5,13 +5,16 @@ exports.afterDelete = afterDelete;
 function get(request, response) {
   var spotIds = request.params.spotIds;
   var Spot = Parse.Object.extend('Spot');
-  var promises = spotIds.map(function (spotId) {
-    var query = new Parse.Query(Spot);
-    query.include(['user', 'contents.language', 'category']);
-    return query.get(spotId);
+  var innerQueries = [];
+  spotIds.forEach(function (spotId) {
+    var innerQuery = new Parse.Query(Spot);
+    innerQuery.equalTo('objectId', spotId);
+    innerQueries.push(innerQuery);
   });
-  Parse.Promise.when(promises).then(function (results) {
-    response.success(results);
+  var query = Parse.Query.or(...innerQueries);
+  query.include(['user', 'contents.language', 'category']);
+  query.find(spotId).then(function (spots) {
+    response.success(spots);
   }, function (error) {
     response.error(error);
   });
