@@ -13,7 +13,7 @@ function get(request, response) {
   });
   var query = Parse.Query.or(...innerQueries);
   query.include(['user', 'contents.language', 'category']);
-  query.find(spotId).then(function (spots) {
+  query.find().then(function (spots) {
     response.success(spots);
   }, function (error) {
     response.error(error);
