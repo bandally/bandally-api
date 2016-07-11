@@ -5,13 +5,8 @@ exports.afterDelete = afterDelete;
 function get(request, response) {
   var spotIds = request.params.spotIds;
   var Spot = Parse.Object.extend('Spot');
-  var innerQueries = [];
-  spotIds.forEach(function (spotId) {
-    var innerQuery = new Parse.Query(Spot);
-    innerQuery.equalTo('objectId', spotId);
-    innerQueries.push(innerQuery);
-  });
-  var query = Parse.Query.or(...innerQueries);
+  var query = new Parse.Query(Spot);
+  query.containedIn('objectId', spotIds);
   query.include(['user', 'contents.language', 'category']);
   query.find().then(function (spots) {
     response.success(spots);
